@@ -9,7 +9,8 @@ class User(UserMixin):
         self.username = username
         self.password = password
         self.fullname = fullname
-
+#print (password)
+#quit()
 #Este va a estar guardado despues de pasar por el hash
     @classmethod
     def check_password(self, hashed_password, password):

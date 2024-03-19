@@ -13,7 +13,9 @@ class ModelUser():
             row = cursor.fetchone()
             if row != None:
                 ##Comprabar password
-                user = User(row[0], row[1], User.check_password(row[2], user.password), row[3])
+                #print(user.password)
+                #quit()
+                user = User(row[0], row[1], row[2] == user.password, row[3])
                 return user
             else:
                 return None
@@ -21,16 +23,16 @@ class ModelUser():
             raise Exception(ex)
 
 ##mostrar los datos del usuario ya logeado
-#@classmethod
-    #def get_by_id(self, db, id):
-       # try:
-            #cursor = db.connection.cursor()
-            #sql = "SELECT id, username, fullname FROM user WHERE id = {}".format(id)
-            #cursor.execute(sql)
-            #row = cursor.fetchone()
-            #if row != None:
-                #return User(row[0], row[1], None, row[2])
-            #else:
-             #   return None
-        #except Exception as ex:
-          #  raise Exception(ex)
+@classmethod
+    def get_by_id(self, db, id):
+        try:
+            cursor = db.connection.cursor()
+            sql = "SELECT id, username, fullname FROM user WHERE id = {}".format(id)
+            cursor.execute(sql)
+            row = cursor.fetchone()
+            if row != None:
+                return User(row[0], row[1], None, row[2])
+            else:
+                return None
+        except Exception as ex:
+            raise Exception(ex)
