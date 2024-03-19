@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for,flash
 ##Establecer conexion con base de datos
 
 from flask_mysqldb import MySQL
+from flask_login import LoginManager, login_user, logout_user, login_required
 
 from config import config
 
@@ -19,11 +20,17 @@ app = Flask(__name__)
 #Variable db inicializar con mysql, la conexion, secuencias sql
 
 db = MySQL(app)
+#login_manager_app = LoginManager(app)
+
+#@login_manager_app.user_loader
+#def load_user(id):
+  #  return ModelUser.get_by_id(db, id)
 
 @app.route('/')
 def index():
     return redirect(url_for('login'))
-
+    
+#Recibir la informacion de login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method=='POST':
@@ -34,6 +41,7 @@ def login():
         if logged_user!=None:
             ##validar usuario
             if logged_user.password:
+                #login_user(logged_user)
                 return redirect(url_for('home'))
             else:
                 #Validar contraseña
@@ -44,6 +52,11 @@ def login():
             return render_template('auth/login.html')
     else:
         return render_template('auth/login.html')
+
+#@app.route('/logout')
+#def logout():
+    #logout_user()
+    #return redirect(url_for('login'))
 
 @app.route('/home')
 def home():
